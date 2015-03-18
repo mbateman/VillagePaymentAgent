@@ -1,20 +1,16 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.haftrust.verifier.dao;
 
 import java.util.List;
+
 import org.haftrust.verifier.model.Reference;
 import org.haftrust.verifier.model.Verifier;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
- * @author Miroslav
  */
-public interface ReferenceDAO {
+public interface ReferenceDAO extends JpaRepository<Reference, Integer> {
 
-    public List<Reference> getReferences(Verifier ver, String employeeType);
-
-    public Reference saveReference(Reference reference);
+    List<Reference> findByVerifier(Verifier verifier);
+    
 }

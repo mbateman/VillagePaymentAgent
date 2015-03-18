@@ -107,8 +107,8 @@ public class RegisterController {
         rvBean.setEmail(verifier.getEmail());
         LOG.debug("--------------------register verifier controller post process page verifier email: {}", rvBean.getEmail());
         rvBean.setTelephoneNumber(verifier.getTelephoneNumber());
-        rvBean.setEducationType(verifier.getEducationType());
-        rvBean.setEducationLevel(verifier.getEducationLevel());
+        rvBean.setEducationType(verifier.getEducationType().value);
+        rvBean.setEducationLevel(verifier.getEducationLevel().value);
         rvBean.setIdVerifier(verifier.getId());
         if (verifier.getImage() != null) {
             rvBean.setImage(verifier.getImage());
@@ -165,7 +165,7 @@ public class RegisterController {
         rvBean.setReference2Address(reference2.getAddress());
 
         IdentityDocument id = this.verifierService.getIdentityDocument();
-        rvBean.setIdentityDocumentType(id.getType());
+        rvBean.setIdentityDocumentType(id.getType().value);
         rvBean.setIdentityDocumentNumber(id.getNumber());
         if (id.getIssueDate() != null) {
             String date;

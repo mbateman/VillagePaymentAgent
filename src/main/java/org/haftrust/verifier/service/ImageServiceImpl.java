@@ -24,7 +24,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     public Image find(int imageId) {
-        return this.imageDao.find(imageId);
+        return this.imageDao.findOne(imageId);
     }
 
 }

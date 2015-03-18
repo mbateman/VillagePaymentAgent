@@ -1,24 +1,49 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.haftrust.verifier.model;
 
 import java.sql.Date;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.haftrust.verifier.model.enums.EmployeeType;
+import org.haftrust.verifier.model.enums.InterviewStatus;
 
 /**
  *
  * @author LabClass
  */
+@Entity
+@Table(name = "ht_interview")
 public class Interview implements java.io.Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "idinterview")
     private int id;
+    @Column(name = "date")
     private Date date;
+    @Column(name = "address")
     private String address;
-    private String status;
+    @Column(name = "status")
+    private InterviewStatus status;
+    @Column(name = "comment")
     private String comment;
-    private String employeeType;
+    @Column(name = "employee_type")
+    @Enumerated(EnumType.STRING)
+    private EmployeeType employeeType;
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "emp_id")
     private Verifier verifier;
+    @Column(name = "ht_fom_idfom")
     private Fom fom;
 
     public int getId() {
@@ -45,11 +70,11 @@ public class Interview implements java.io.Serializable {
         this.address = address;
     }
 
-    public String getStatus() {
+    public InterviewStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(InterviewStatus status) {
         this.status = status;
     }
 
@@ -61,11 +86,11 @@ public class Interview implements java.io.Serializable {
         this.comment = comment;
     }
 
-    public String getEmployeeType() {
+    public EmployeeType getEmployeeType() {
         return employeeType;
     }
 
-    public void setEmployeeType(String employeeType) {
+    public void setEmployeeType(EmployeeType employeeType) {
         this.employeeType = employeeType;
     }
 

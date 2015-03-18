@@ -1,19 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.haftrust.verifier.dao;
 
 import org.haftrust.verifier.model.Image;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
- * @author Miroslav
  */
-public interface ImageDAO {
-
-    public Image saveImage(Image image);
-
-    public Image find(int imageId);
-
+public interface ImageDAO extends JpaRepository<Image, Integer> {
 }

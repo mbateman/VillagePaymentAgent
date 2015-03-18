@@ -1,14 +1,32 @@
 package org.haftrust.verifier.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 /**
  *
  * @author LabClass
  */
+@Entity
+@Table(name = "ht_region")
 public class Region implements java.io.Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "idregion")
     private int id;
+    @Column(name = "title", length = 45)
     private String title;
+    @Column(name = "description", length = 45)
     private String description;
+    @ManyToOne
+    @JoinColumn(name = "ht_country_idcountry")
     private Country country;
 
     public int getId() {

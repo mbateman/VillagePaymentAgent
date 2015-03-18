@@ -1,39 +1,94 @@
 package org.haftrust.verifier.model;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.haftrust.verifier.model.enums.EducationLevel;
+import org.haftrust.verifier.model.enums.EducationType;
+import org.haftrust.verifier.model.enums.EmploymentStatus;
+import org.haftrust.verifier.model.enums.VerificationStatus;
 
 /**
  *
  * @author LabClass
  */
+@Entity
+@Table(name = "HT_VERIFIER")
 public class Verifier implements java.io.Serializable {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "idverifier")
+    private Integer id;
+    @Column(name = "first_name", length = 45)
     private String firstName;
+    @Column(name = "middle_name", length = 45)
     private String middleName;
+    @Column(name = "last_name", length = 45)
     private String lastName;
+    @Column(name = "gender", length = 1)
     private String gender;
+    @Column(name = "dob")
     private Date dob;
+    @Column(name = "email", length = 45, nullable = false)
     private String email;
+    @Column(name = "telephone_number", length = 25)
     private String telephoneNumber;
+    @Column(name = "password", length = 45, nullable = false)
     private String password;
-    private String educationType;
-    private String educationLevel;
-    private String status;
+    @Column(name = "education_type", length = 45)
+    @Enumerated(EnumType.STRING)
+    private EducationType educationType;
+    @Column(name = "education_level", length = 45)
+    @Enumerated(EnumType.STRING)
+    private EducationLevel educationLevel;
+    @Column(name = "status", length = 45, nullable = false)
+    @Enumerated(EnumType.STRING)
+    private EmploymentStatus status;
+    @Column(name = "status_date")
     private Date statusDate;
+    @Column(name = "start_date")
     private Date startDate;
+    @Column(name = "ht_vacancy_idvacancy")
     private int vacancyId;
-    private String verificationStatus;
+    @Column(name = "verification_status", length = 45)
+    @Enumerated(EnumType.STRING)
+    private VerificationStatus verificationStatus;
+    @Column(name = "verification_date")
     private Date verificationDate;
+    @Column(name = "verification_comment", length = 100)
     private String verificationComment;
+    @Column(name = "ht_device_imei")
     private Device mobileDevice;
+    @Column(name = "ht_image_idimage")
     private Image image;
+    @OneToOne(mappedBy = "verifier")
+    private Address address;
+    @OneToOne(mappedBy = "verifier")
+    private IdentityDocument identity;
+    @OneToOne(mappedBy = "verifier")
+    private Bank bank;
+    @OneToMany
+    private List<Reference> references;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -101,27 +156,27 @@ public class Verifier implements java.io.Serializable {
         this.password = password;
     }
 
-    public String getEducationType() {
+    public EducationType getEducationType() {
         return educationType;
     }
 
-    public void setEducationType(String educationType) {
+    public void setEducationType(EducationType educationType) {
         this.educationType = educationType;
     }
 
-    public String getEducationLevel() {
+    public EducationLevel getEducationLevel() {
         return educationLevel;
     }
 
-    public void setEducationLevel(String educationLevel) {
+    public void setEducationLevel(EducationLevel educationLevel) {
         this.educationLevel = educationLevel;
     }
 
-    public String getStatus() {
+    public EmploymentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(EmploymentStatus status) {
         this.status = status;
     }
 
@@ -149,11 +204,11 @@ public class Verifier implements java.io.Serializable {
         this.vacancyId = vacancyId;
     }
 
-    public String getVerificationStatus() {
+    public VerificationStatus getVerificationStatus() {
         return verificationStatus;
     }
 
-    public void setVerificationStatus(String verificationStatus) {
+    public void setVerificationStatus(VerificationStatus verificationStatus) {
         this.verificationStatus = verificationStatus;
     }
 
@@ -189,10 +244,52 @@ public class Verifier implements java.io.Serializable {
         this.image = image;
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public IdentityDocument getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(IdentityDocument identity) {
+        this.identity = identity;
+    }
+
+    public Bank getBank() {
+        return bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+
+    public List<Reference> getReferences() {
+        if (references == null) {
+            references = new ArrayList<>();
+        }
+        return references;
+    }
+
+    public void setReferences(List<Reference> references) {
+        this.references = references;
+    }
+    
+    public Reference getReference1() {
+        return getReferences().size() > 0 ? getReferences().get(0) : null;
+    }
+    
+    public Reference getReference2() {
+        return getReferences().size() > 1 ? getReferences().get(1) : null;
+    }
+
     @Override
     public String toString() {
         return "Verifier{" + "id=" + id + ", firstName=" + firstName + ", middleName=" + middleName + ", lastName=" + lastName + ", gender=" + gender + ", dob=" + dob + ", email=" + email + ", telephoneNumber=" + telephoneNumber + ", password=" + password + ", educationType=" + educationType + ", educationLevel=" + educationLevel + ", status=" + status + ", statusDate=" + statusDate + ", startDate=" + startDate + ", vacancyId=" + vacancyId + ", verificationStatus=" + verificationStatus + ", verificationDate=" + verificationDate + ", verificationComment=" + verificationComment + ", mobileDevice=" + mobileDevice + ", image=" + image + '}';
     }
-
     
 }

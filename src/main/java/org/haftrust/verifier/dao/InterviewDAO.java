@@ -1,16 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.haftrust.verifier.dao;
 
 import org.haftrust.verifier.model.Interview;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
- * @author Miroslav
  */
-public interface InterviewDAO {
-
-    public Interview saveInterview(Interview interview);
+public interface InterviewDAO extends JpaRepository<Interview, Integer> {
 }
