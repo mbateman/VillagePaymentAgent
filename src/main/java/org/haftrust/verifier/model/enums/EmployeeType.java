@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.haftrust.verifier.model.StaticData;
 
-public enum EmployeeType {
+public enum EmployeeType implements KeyValueEnum {
 
     VILLAGE_PAYMENT_AGENT("vpa", "Village Payment Agent"), 
     VERIFIER("ver", "Verifier"),
@@ -45,6 +45,16 @@ public enum EmployeeType {
             sdList.add(new StaticData(val.key, val.value));
         }
         return sdList;
+    }
+
+    @Override
+    public String getKey() {
+        return key;
+    }
+
+    @Override
+    public String getValue() {
+        return value;
     }
 
 }

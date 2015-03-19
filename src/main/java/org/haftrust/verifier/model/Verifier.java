@@ -50,13 +50,10 @@ public class Verifier implements java.io.Serializable {
     @Column(name = "password", length = 45, nullable = false)
     private String password;
     @Column(name = "education_type", length = 45)
-    @Enumerated(EnumType.STRING)
     private EducationType educationType;
     @Column(name = "education_level", length = 45)
-    @Enumerated(EnumType.STRING)
     private EducationLevel educationLevel;
     @Column(name = "status", length = 45, nullable = false)
-    @Enumerated(EnumType.STRING)
     private EmploymentStatus status;
     @Column(name = "status_date")
     private Date statusDate;
@@ -65,7 +62,6 @@ public class Verifier implements java.io.Serializable {
     @Column(name = "ht_vacancy_idvacancy")
     private int vacancyId;
     @Column(name = "verification_status", length = 45)
-    @Enumerated(EnumType.STRING)
     private VerificationStatus verificationStatus;
     @Column(name = "verification_date")
     private Date verificationDate;

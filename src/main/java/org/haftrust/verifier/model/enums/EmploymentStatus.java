@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.haftrust.verifier.model.StaticData;
 
-public enum EmploymentStatus {
+public enum EmploymentStatus implements KeyValueEnum {
 
     PRE_REGISTERED("preregistered", "Preregistered"), 
     REGISTERED("registered", "Registered"),
@@ -50,6 +50,16 @@ public enum EmploymentStatus {
             sdList.add(new StaticData(val.key, val.value));
         }
         return sdList;
+    }
+
+    @Override
+    public String getKey() {
+        return key;
+    }
+
+    @Override
+    public String getValue() {
+        return value;
     }
 
 }

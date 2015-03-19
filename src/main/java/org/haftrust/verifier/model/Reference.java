@@ -44,14 +44,12 @@ public class Reference implements java.io.Serializable {
     @Column(name = "email", length = 45)
     private String email;
     @Column(name = "verification_status", length = 45)
-    @Enumerated(EnumType.STRING)
     private VerificationStatus verificationStatus;
     @Column(name = "verification_date")
     private Date verificationDate;
     @Column(name = "verification_comment", length = 100)
     private String verificationComment;
     @Column(name = "employee_type")
-    @Enumerated(EnumType.STRING)
     private EmployeeType employeeType;
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "emp_id")

@@ -4,6 +4,8 @@ import java.sql.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,6 +19,7 @@ import javax.persistence.Table;
 
 import org.haftrust.verifier.model.enums.EmployeeType;
 import org.haftrust.verifier.model.enums.VerificationStatus;
+import org.haftrust.verifier.model.enums.converters.EmployeeTypeConverter;
 
 /**
  *
@@ -41,14 +44,13 @@ public class Address implements java.io.Serializable {
     @Column(name = "city")
     private String city;
     @Column(name = "verification_status")
-    @Enumerated(EnumType.STRING)
     private VerificationStatus verificationStatus;
     @Column(name = "verification_date")
     private Date verificationDate;
     @Column(name = "verification_comment")
     private String verificationComment; 
+    @Convert(converter = EmployeeTypeConverter.class)
     @Column(name = "employee_type")
-    @Enumerated(EnumType.STRING)
     private EmployeeType employeeType;
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "emp_id")

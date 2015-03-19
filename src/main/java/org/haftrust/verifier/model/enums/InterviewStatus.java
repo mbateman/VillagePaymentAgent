@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.haftrust.verifier.model.StaticData;
 
-public enum InterviewStatus {
+public enum InterviewStatus implements KeyValueEnum {
 
     AWAITING("awaiting arrangement", "Awaiting Arrangement"), 
     ARRANGED("arranged", "Arranged"),
@@ -45,6 +45,16 @@ public enum InterviewStatus {
             sdList.add(new StaticData(val.key, val.value));
         }
         return sdList;
+    }
+
+    @Override
+    public String getKey() {
+        return key;
+    }
+
+    @Override
+    public String getValue() {
+        return value;
     }
 
 }

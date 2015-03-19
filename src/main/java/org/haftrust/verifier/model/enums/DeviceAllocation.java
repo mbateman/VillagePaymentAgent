@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.haftrust.verifier.model.StaticData;
 
-public enum DeviceAllocation {
+public enum DeviceAllocation implements KeyValueEnum {
 
     YES("yes", "Yes"), 
     NO("no", "No");
@@ -43,6 +43,16 @@ public enum DeviceAllocation {
             sdList.add(new StaticData(val.key, val.value));
         }
         return sdList;
+    }
+
+    @Override
+    public String getKey() {
+        return key;
+    }
+
+    @Override
+    public String getValue() {
+        return value;
     }
 
 }

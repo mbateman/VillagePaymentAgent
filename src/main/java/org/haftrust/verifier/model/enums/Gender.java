@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.haftrust.verifier.model.StaticData;
 
-public enum Gender {
+public enum Gender implements KeyValueEnum {
 
     MALE("m", "Male"), 
     FEMALE("f", "Female");
@@ -43,6 +43,16 @@ public enum Gender {
             sdList.add(new StaticData(val.key, val.value));
         }
         return sdList;
+    }
+
+    @Override
+    public String getKey() {
+        return key;
+    }
+
+    @Override
+    public String getValue() {
+        return value;
     }
 
 }

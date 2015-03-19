@@ -38,7 +38,6 @@ public class Interview implements java.io.Serializable {
     @Column(name = "comment")
     private String comment;
     @Column(name = "employee_type")
-    @Enumerated(EnumType.STRING)
     private EmployeeType employeeType;
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "emp_id")

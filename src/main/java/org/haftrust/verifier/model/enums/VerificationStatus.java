@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.haftrust.verifier.model.StaticData;
 
-public enum VerificationStatus {
+public enum VerificationStatus implements KeyValueEnum {
 
     VERIFIED("verified", "Verified"), 
     UNVERIFIED("unverified", "Unverified"),
@@ -30,10 +30,6 @@ public enum VerificationStatus {
         }
     }
 
-    public String getKey() {
-        return this.key;
-    }
-    
     public static VerificationStatus valueOfKey(String key) {
         return keyMap.get(key);
     }
@@ -48,6 +44,16 @@ public enum VerificationStatus {
             sdList.add(new StaticData(val.key, val.value));
         }
         return sdList;
+    }
+
+    @Override
+    public String getKey() {
+        return key;
+    }
+
+    @Override
+    public String getValue() {
+        return value;
     }
 
 }

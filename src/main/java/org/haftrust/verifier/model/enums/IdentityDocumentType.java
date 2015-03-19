@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.haftrust.verifier.model.StaticData;
 
-public enum IdentityDocumentType {
+public enum IdentityDocumentType implements KeyValueEnum {
 
     PASSPORT("Passport", "Passport"), 
     IDENTITY_CARD("identity card", "Identity Card"),
@@ -44,6 +44,16 @@ public enum IdentityDocumentType {
             sdList.add(new StaticData(val.key, val.value));
         }
         return sdList;
+    }
+
+    @Override
+    public String getKey() {
+        return key;
+    }
+
+    @Override
+    public String getValue() {
+        return value;
     }
 
 }

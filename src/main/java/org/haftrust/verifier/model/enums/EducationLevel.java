@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.haftrust.verifier.model.StaticData;
 
-public enum EducationLevel {
+public enum EducationLevel implements KeyValueEnum {
 
     LEVEL_1("level 1", "Level 1"), 
     LEVEL_2("level 2", "Level 2");
@@ -45,4 +45,14 @@ public enum EducationLevel {
         return sdList;
     }
 
+    @Override
+    public String getKey() {
+        return key;
+    }
+
+    @Override
+    public String getValue() {
+        return value;
+    }
+    
 }

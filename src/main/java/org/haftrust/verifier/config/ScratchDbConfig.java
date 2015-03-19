@@ -9,7 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -20,9 +19,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
  * This provides the database configuration for the 'scratch' (in-memory) profile.
  */
 @Configuration
-@ComponentScan(basePackages = { 
-        "org.haftrust.verifier.model",
-        "org.haftrust.verifier.dao" })
+@ComponentScan(basePackages = { "org.haftrust.verifier.model", "org.haftrust.verifier.dao" })
 @Profile(value = "scratch")
 public class ScratchDbConfig {
 

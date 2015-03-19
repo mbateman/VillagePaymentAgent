@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.haftrust.verifier.model.StaticData;
 
-public enum EducationType {
+public enum EducationType implements KeyValueEnum {
 
     TYPE_1("type 1", "Type 1"), 
     TYPE_2("type 2", "Type 2");
@@ -43,6 +43,16 @@ public enum EducationType {
             sdList.add(new StaticData(val.key, val.value));
         }
         return sdList;
+    }
+
+    @Override
+    public String getKey() {
+        return key;
+    }
+
+    @Override
+    public String getValue() {
+        return value;
     }
 
 }

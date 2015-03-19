@@ -42,14 +42,12 @@ public class Bank implements java.io.Serializable {
     @Column(name = "contact_number")
     private String contactNumber;
     @Column(name = "verification_status")
-    @Enumerated(EnumType.STRING)
     private VerificationStatus verificationStatus;
     @Column(name = "verification_date")
     private Date verificationDate;
     @Column(name = "verification_comment")
     private String verificationComment;
     @Column(name = "employee_type")
-    @Enumerated(EnumType.STRING)
     private EmployeeType employeeType;
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "emp_id")

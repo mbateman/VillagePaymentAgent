@@ -36,6 +36,8 @@ import org.haftrust.verifier.model.enums.InterviewStatus;
 import org.haftrust.verifier.model.enums.VerificationStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,23 +50,24 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+@Service
 public class VerifierServiceImpl implements VerifierService {
 
     private static final Logger LOG = LoggerFactory.getLogger(VerifierServiceImpl.class);
 
-    private VerifierDAO verifierDao;
-    private CountryDAO countryDao;
-    private RegionDAO regionDao;
-    private DistrictDAO districtDao;
-    private StaticDataDAO staticDataDao;
-    private AddressDAO addressDao;
-    private BankDAO bankDao;
-    private ReferenceDAO referenceDao;
-    private IdentityDocumentDAO identityDocumentDao;
-    private ImageDAO imageDao;
-    private FomDAO fomDao;
-    private InterviewDAO interviewDao;
-    private DeviceDAO deviceDao;
+    private final VerifierDAO verifierDao;
+    private final CountryDAO countryDao;
+    private final RegionDAO regionDao;
+    private final DistrictDAO districtDao;
+    private final StaticDataDAO staticDataDao;
+    private final AddressDAO addressDao;
+    private final BankDAO bankDao;
+    private final ReferenceDAO referenceDao;
+    private final IdentityDocumentDAO identityDocumentDao;
+    private final ImageDAO imageDao;
+    private final FomDAO fomDao;
+    private final InterviewDAO interviewDao;
+    private final DeviceDAO deviceDao;
 
     private List<Country> countryList = new ArrayList<Country>();
     private List<Region> regionList = new ArrayList<Region>();
@@ -83,9 +86,9 @@ public class VerifierServiceImpl implements VerifierService {
     private Bank bank = new Bank();
     private Reference reference1 = new Reference();
     private Reference reference2 = new Reference();
-    private StaticData sdVerifierType = new StaticData();
-    private StaticData sdStatus = new StaticData();
-    private StaticData sdInterviewStatus = new StaticData();
+    private EmployeeType sdVerifierType;
+    private EmploymentStatus sdStatus;
+    private InterviewStatus sdInterviewStatus;
 
     private List<Verifier> registeredVerifiersList = new ArrayList<Verifier>();
     private List<Address> registeredVerifierAddressList = new ArrayList<Address>();
@@ -94,28 +97,35 @@ public class VerifierServiceImpl implements VerifierService {
 
     private List<Device> deviceList = new ArrayList<Device>();
 
-    public DeviceDAO getDeviceDao() {
-        return deviceDao;
-    }
-
-    public void setDeviceDao(DeviceDAO deviceDao) {
-        this.deviceDao = deviceDao;
-    }
-
-    public InterviewDAO getInterviewDao() {
-        return interviewDao;
-    }
-
-    public void setInterviewDao(InterviewDAO interviewDao) {
-        this.interviewDao = interviewDao;
-    }
-
-    public FomDAO getFomDao() {
-        return fomDao;
-    }
-
-    public void setFomDao(FomDAO fomDao) {
+    @Autowired
+    public VerifierServiceImpl(
+            VerifierDAO verifierDao,
+            CountryDAO countryDao,
+            RegionDAO regionDao,
+            DistrictDAO districtDao,
+            StaticDataDAO staticDataDao,
+            AddressDAO addressDao,
+            BankDAO bankDao,
+            ReferenceDAO referenceDao,
+            IdentityDocumentDAO identityDocumentDao,
+            ImageDAO imageDao,
+            FomDAO fomDao,
+            InterviewDAO interviewDao,
+            DeviceDAO deviceDao
+            ) {
+        this.verifierDao = verifierDao;
+        this.countryDao = countryDao;
+        this.regionDao = regionDao;
+        this.districtDao = districtDao;
+        this.staticDataDao = staticDataDao;
+        this.addressDao = addressDao;
+        this.bankDao = bankDao;
+        this.referenceDao = referenceDao;
+        this.identityDocumentDao = identityDocumentDao;
+        this.imageDao = imageDao;
         this.fomDao = fomDao;
+        this.interviewDao = interviewDao;
+        this.deviceDao = deviceDao;
     }
 
     public Country getVerifierCountry() {
@@ -128,14 +138,6 @@ public class VerifierServiceImpl implements VerifierService {
 
     public District getVerifierDistrict() {
         return verifierDistrict;
-    }
-
-    public ImageDAO getImageDao() {
-        return imageDao;
-    }
-
-    public void setImageDao(ImageDAO imageDao) {
-        this.imageDao = imageDao;
     }
 
     public Reference getReference2() {
@@ -162,80 +164,8 @@ public class VerifierServiceImpl implements VerifierService {
         return address;
     }
 
-    public IdentityDocumentDAO getIdentityDocumentDao() {
-        return identityDocumentDao;
-    }
-
-    public void setIdentityDocumentDao(IdentityDocumentDAO identityDocumentDao) {
-        this.identityDocumentDao = identityDocumentDao;
-    }
-
-    public ReferenceDAO getReferenceDao() {
-        return referenceDao;
-    }
-
-    public void setReferenceDao(ReferenceDAO referenceDao) {
-        this.referenceDao = referenceDao;
-    }
-
-    public AddressDAO getAddressDao() {
-        return addressDao;
-    }
-
-    public void setAddressDao(AddressDAO addressDao) {
-        this.addressDao = addressDao;
-    }
-
-    public BankDAO getBankDao() {
-        return bankDao;
-    }
-
-    public void setBankDao(BankDAO bankDao) {
-        this.bankDao = bankDao;
-    }
-
     public Verifier getVerifier() {
         return verifier;
-    }
-
-    public StaticDataDAO getStaticDataDao() {
-        return staticDataDao;
-    }
-
-    public void setStaticDataDao(StaticDataDAO staticDataDao) {
-        this.staticDataDao = staticDataDao;
-    }
-
-    public DistrictDAO getDistrictDao() {
-        return districtDao;
-    }
-
-    public void setDistrictDao(DistrictDAO districtDao) {
-        this.districtDao = districtDao;
-    }
-
-    public RegionDAO getRegionDao() {
-        return regionDao;
-    }
-
-    public void setRegionDao(RegionDAO regionDao) {
-        this.regionDao = regionDao;
-    }
-
-    public CountryDAO getCountryDao() {
-        return countryDao;
-    }
-
-    public void setCountryDao(CountryDAO countryDao) {
-        this.countryDao = countryDao;
-    }
-
-    public VerifierDAO getVerifierDao() {
-        return verifierDao;
-    }
-
-    public void setVerifierDao(VerifierDAO verifierDao) {
-        this.verifierDao = verifierDao;
     }
 
     @Transactional
@@ -249,7 +179,7 @@ public class VerifierServiceImpl implements VerifierService {
     }
 
     public void failVerification(String strVerifierVerificationComment) {
-        sdStatus = staticDataDao.getEmploymentStatus("Failed");
+        sdStatus = EmploymentStatus.FAILED;
         //this.verifier.setStatus(this.sdStatus.getValue());
         verifier.setVerificationComment(strVerifierVerificationComment);
         //this.verifier.setStatusDate(this.todaysDate());
@@ -409,7 +339,7 @@ public class VerifierServiceImpl implements VerifierService {
         }
         
         verifier = verifierList.get(0);
-        sdVerifierType = staticDataDao.getEmployeeType("Verifier");
+        sdVerifierType = EmployeeType.VERIFIER;
 
         LOG.debug("------------- LogInVerifier in verifierService verifier id: {}", verifier.getId());
 
@@ -441,7 +371,7 @@ public class VerifierServiceImpl implements VerifierService {
         LOG.debug("------------- LogInVerifier in verifierService before reference verifier id: {}",
                   verifier.getId());
         LOG.debug("------------- LogInVerifier in verifierService before reference verifier employee type: {}",
-                  sdVerifierType.getValue());
+                  sdVerifierType);
         List<Reference> referenceList = new ArrayList<Reference>();
         referenceList = referenceDao.findByVerifier(verifier);
 
@@ -567,7 +497,7 @@ public class VerifierServiceImpl implements VerifierService {
     }
 
     public void saveVerifier() {
-        verifier.setStatus(EmploymentStatus.valueOfKey(sdStatus.getValue()));
+        verifier.setStatus(sdStatus);
         verifier.setStatusDate(todaysDate());
 
         verifier.setVerificationDate(todaysDate());
@@ -578,7 +508,7 @@ public class VerifierServiceImpl implements VerifierService {
 
     public void saveAddress() {
         address.setVerificationDate(todaysDate());
-        address.setEmployeeType(EmployeeType.valueOfKey(sdVerifierType.getValue()));
+        address.setEmployeeType(sdVerifierType);
         address.setVerifier(verifier);
 
         LOG.debug("----------- save address, address country id: {}", address.getCountry().getId());
@@ -587,26 +517,26 @@ public class VerifierServiceImpl implements VerifierService {
 
     public void saveIdentityDocument() {
         identityDocument.setVerificationDate(todaysDate());
-        identityDocument.setEmployeeType(EmployeeType.valueOfKey(sdVerifierType.getValue()));
+        identityDocument.setEmployeeType(sdVerifierType);
         identityDocument.setVerifier(verifier);
 
         identityDocument = identityDocumentDao.saveAndFlush(identityDocument);
     }
 
     public void saveInterview() {
-        sdInterviewStatus = staticDataDao.getInterviewStatus("Awaiting Arrangement");
-        sdVerifierType = staticDataDao.getEmployeeType("Verifier");
+        sdInterviewStatus = InterviewStatus.AWAITING;
+        sdVerifierType = EmployeeType.VERIFIER;
         interview.setFom(fom);
         interview.setVerifier(verifier);
-        interview.setStatus(InterviewStatus.valueOfKey(sdInterviewStatus.getValue()));
-        interview.setEmployeeType(EmployeeType.valueOfKey(sdVerifierType.getValue()));
+        interview.setStatus(sdInterviewStatus);
+        interview.setEmployeeType(sdVerifierType);
 
         interview = interviewDao.saveAndFlush(interview);
     }
 
     public void saveBank() {
         bank.setVerificationDate(todaysDate());
-        bank.setEmployeeType(EmployeeType.valueOfKey(sdVerifierType.getValue()));
+        bank.setEmployeeType(sdVerifierType);
         bank.setVerifier(verifier);
 
         bank = bankDao.saveAndFlush(bank);
@@ -614,7 +544,7 @@ public class VerifierServiceImpl implements VerifierService {
 
     public void saveReference1() {
         reference1.setVerificationDate(todaysDate());
-        reference1.setEmployeeType(EmployeeType.valueOfKey(sdVerifierType.getValue()));
+        reference1.setEmployeeType(sdVerifierType);
         reference1.setVerifier(verifier);
 
         reference1 = referenceDao.saveAndFlush(reference1);
@@ -622,7 +552,7 @@ public class VerifierServiceImpl implements VerifierService {
 
     public void saveReference2() {
         reference2.setVerificationDate(todaysDate());
-        reference2.setEmployeeType(EmployeeType.valueOfKey(sdVerifierType.getValue()));
+        reference2.setEmployeeType(sdVerifierType);
         reference2.setVerifier(verifier);
 
         reference2 = referenceDao.saveAndFlush(reference2);
@@ -655,7 +585,7 @@ public class VerifierServiceImpl implements VerifierService {
         image.setVerificationStatus(VerificationStatus.AWAITING);
         saveImage();
 
-        sdStatus = staticDataDao.getEmploymentStatus("Registered");
+        sdStatus = EmploymentStatus.REGISTERED;
 
         verifier.setVerificationStatus(VerificationStatus.AWAITING);
         saveVerifier();
