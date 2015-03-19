@@ -1,24 +1,36 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.haftrust.verifier.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author LabClass
  */
+@Entity
+@Table(name = "ht_country")
 public class Country implements java.io.Serializable {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "idcountry")
+    private Integer id;
+
+    @Column(name = "title", length = 45)
     private String title;
+
+    @Column(name = "description", length = 45)
     private String description;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -40,6 +52,8 @@ public class Country implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Country{" + "id=" + id + ", title=" + title + ", description=" + description + '}';
+        return "Country{ id=" + id 
+                + ", title=" + title 
+                + ", description=" + description + '}';
     }
 }

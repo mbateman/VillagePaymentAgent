@@ -1,19 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.haftrust.verifier.dao;
 
 import org.haftrust.verifier.model.IdentityDocument;
 import org.haftrust.verifier.model.Verifier;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
- * @author Miroslav
  */
-public interface IdentityDocumentDAO {
+public interface IdentityDocumentDAO extends JpaRepository<IdentityDocument, Integer> {
 
-    public IdentityDocument getIdentityDocument(Verifier ver, String employeeType);
+    IdentityDocument findOneByVerifier(Verifier verifier);
 
-    public IdentityDocument saveIdentityDocument(IdentityDocument identityDocument);
 }

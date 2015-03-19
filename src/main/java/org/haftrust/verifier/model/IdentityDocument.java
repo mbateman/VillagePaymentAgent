@@ -2,28 +2,72 @@ package org.haftrust.verifier.model;
 
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.haftrust.verifier.model.enums.EmployeeType;
+import org.haftrust.verifier.model.enums.IdentityDocumentType;
+import org.haftrust.verifier.model.enums.VerificationStatus;
+import org.haftrust.verifier.model.enums.converters.EmployeeTypeConverter;
+import org.haftrust.verifier.model.enums.converters.VerificationStatusConverter;
+
 /**
  *
  * @author LabClass
  */
+@Entity
+@Table(name = "ht_identity_document")
 public class IdentityDocument implements java.io.Serializable {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ididentitydocument")
+    private Integer id;
+    
+    @Column(name = "number", length = 25)
     private String number;
-    private String type;
+    
+    @Column(name = "type", length = 25)
+    private IdentityDocumentType type;
+    
+    @Column(name = "issue_date")
     private Date issueDate;
+    
+    @Column(name = "expiry_date")
     private Date expiryDate;
-    private String verificationStatus;
+    
+    @Column(name = "verification_status", length = 45)
+    @Convert(converter = VerificationStatusConverter.class)
+    private VerificationStatus verificationStatus;
+    
+    @Column(name = "verification_date")
     private Date verificationDate;
+    
+    @Column(name = "verification_comment", length = 100)
     private String verificationComment;
-    private String employeeType;
+    
+    @Column(name = "employee_type", length = 25)
+    @Convert(converter = EmployeeTypeConverter.class)
+    private EmployeeType employeeType;
+    
+    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "emp_id")
     private Verifier verifier;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -35,11 +79,11 @@ public class IdentityDocument implements java.io.Serializable {
         this.number = number;
     }
 
-    public String getType() {
+    public IdentityDocumentType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(IdentityDocumentType type) {
         this.type = type;
     }
 
@@ -59,11 +103,11 @@ public class IdentityDocument implements java.io.Serializable {
         this.expiryDate = expiryDate;
     }
 
-    public String getVerificationStatus() {
+    public VerificationStatus getVerificationStatus() {
         return verificationStatus;
     }
 
-    public void setVerificationStatus(String verificationStatus) {
+    public void setVerificationStatus(VerificationStatus verificationStatus) {
         this.verificationStatus = verificationStatus;
     }
 
@@ -83,11 +127,11 @@ public class IdentityDocument implements java.io.Serializable {
         this.verificationComment = verificationComment;
     }
 
-    public String getEmployeeType() {
+    public EmployeeType getEmployeeType() {
         return employeeType;
     }
 
-    public void setEmployeeType(String employeeType) {
+    public void setEmployeeType(EmployeeType employeeType) {
         this.employeeType = employeeType;
     }
 
@@ -101,6 +145,15 @@ public class IdentityDocument implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "IdentityDocument{" + "id=" + id + ", number=" + number + ", type=" + type + ", issueDate=" + issueDate + ", expiryDate=" + expiryDate + ", verificationStatus=" + verificationStatus + ", verificationDate=" + verificationDate + ", verificationComment=" + verificationComment + ", employeeType=" + employeeType + ", verifier=" + verifier + '}';
+        return "IdentityDocument { id=" + id 
+                + ", number=" + number 
+                + ", type=" + type 
+                + ", issueDate=" + issueDate 
+                + ", expiryDate=" + expiryDate 
+                + ", verificationStatus=" + verificationStatus 
+                + ", verificationDate=" + verificationDate 
+                + ", verificationComment=" + verificationComment 
+                + ", employeeType=" + employeeType 
+                + ", verifier=" + verifier + '}';
     }    
 }

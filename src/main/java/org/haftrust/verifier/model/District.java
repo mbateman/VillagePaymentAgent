@@ -1,25 +1,43 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.haftrust.verifier.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author LabClass
  */
+@Entity
+@Table(name = "ht_district")
 public class District implements java.io.Serializable {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "iddistrict")
+    private Integer id;
+    
+    @Column(name = "title")
     private String title;
+    
+    @Column(name = "description")
     private String description;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ht_region_idregion")
     private Region region;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -49,7 +67,10 @@ public class District implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "District{" + "id=" + id + ", title=" + title + ", description=" + description + ", region=" + region + '}';
+        return "District { id=" + id 
+                + ", title=" + title 
+                + ", description=" + description 
+                + ", region=" + region + '}';
     }
     
 }

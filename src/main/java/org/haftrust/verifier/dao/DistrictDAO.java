@@ -1,20 +1,16 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.haftrust.verifier.dao;
 
 import java.util.List;
+
 import org.haftrust.verifier.model.District;
 import org.haftrust.verifier.model.Region;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
- * @author Miroslav
  */
-public interface DistrictDAO {
+public interface DistrictDAO extends JpaRepository<District, Integer> {
 
-    public List<District> getDistricts(Region r);
+    List<District> findByRegion(Region r);
 
-    public District getDistricts(District d);
 }
