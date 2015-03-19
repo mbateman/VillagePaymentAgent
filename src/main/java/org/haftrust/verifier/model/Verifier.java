@@ -3,15 +3,14 @@ package org.haftrust.verifier.model;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -20,6 +19,10 @@ import org.haftrust.verifier.model.enums.EducationLevel;
 import org.haftrust.verifier.model.enums.EducationType;
 import org.haftrust.verifier.model.enums.EmploymentStatus;
 import org.haftrust.verifier.model.enums.VerificationStatus;
+import org.haftrust.verifier.model.enums.converters.EducationLevelConverter;
+import org.haftrust.verifier.model.enums.converters.EducationTypeConverter;
+import org.haftrust.verifier.model.enums.converters.EmploymentStatusConverter;
+import org.haftrust.verifier.model.enums.converters.VerificationStatusConverter;
 
 /**
  *
@@ -33,50 +36,77 @@ public class Verifier implements java.io.Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idverifier")
     private Integer id;
+    
     @Column(name = "first_name", length = 45)
     private String firstName;
+    
     @Column(name = "middle_name", length = 45)
     private String middleName;
+    
     @Column(name = "last_name", length = 45)
     private String lastName;
+    
     @Column(name = "gender", length = 1)
     private String gender;
+    
     @Column(name = "dob")
     private Date dob;
+    
     @Column(name = "email", length = 45, nullable = false)
     private String email;
+    
     @Column(name = "telephone_number", length = 25)
     private String telephoneNumber;
+    
     @Column(name = "password", length = 45, nullable = false)
     private String password;
+    
     @Column(name = "education_type", length = 45)
+    @Convert(converter = EducationTypeConverter.class)
     private EducationType educationType;
+    
     @Column(name = "education_level", length = 45)
+    @Convert(converter = EducationLevelConverter.class)
     private EducationLevel educationLevel;
+    
     @Column(name = "status", length = 45, nullable = false)
+    @Convert(converter = EmploymentStatusConverter.class)
     private EmploymentStatus status;
+    
     @Column(name = "status_date")
     private Date statusDate;
+    
     @Column(name = "start_date")
     private Date startDate;
+    
     @Column(name = "ht_vacancy_idvacancy")
     private int vacancyId;
+    
     @Column(name = "verification_status", length = 45)
+    @Convert(converter = VerificationStatusConverter.class)
     private VerificationStatus verificationStatus;
+    
     @Column(name = "verification_date")
     private Date verificationDate;
+    
     @Column(name = "verification_comment", length = 100)
     private String verificationComment;
+    
     @Column(name = "ht_device_imei")
     private Device mobileDevice;
-    @Column(name = "ht_image_idimage")
+    
+    @ManyToOne
     private Image image;
+    
     @OneToOne(mappedBy = "verifier")
     private Address address;
+    
     @OneToOne(mappedBy = "verifier")
     private IdentityDocument identity;
+    
     @OneToOne(mappedBy = "verifier")
     private Bank bank;
+    
     @OneToMany
     private List<Reference> references;
 
@@ -285,7 +315,26 @@ public class Verifier implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Verifier{" + "id=" + id + ", firstName=" + firstName + ", middleName=" + middleName + ", lastName=" + lastName + ", gender=" + gender + ", dob=" + dob + ", email=" + email + ", telephoneNumber=" + telephoneNumber + ", password=" + password + ", educationType=" + educationType + ", educationLevel=" + educationLevel + ", status=" + status + ", statusDate=" + statusDate + ", startDate=" + startDate + ", vacancyId=" + vacancyId + ", verificationStatus=" + verificationStatus + ", verificationDate=" + verificationDate + ", verificationComment=" + verificationComment + ", mobileDevice=" + mobileDevice + ", image=" + image + '}';
+        return "Verifier { id=" + id 
+                + ", firstName=" + firstName 
+                + ", middleName=" + middleName
+                + ", lastName=" + lastName 
+                + ", gender=" + gender 
+                + ", dob=" + dob 
+                + ", email=" + email 
+                + ", telephoneNumber=" + telephoneNumber 
+                + ", password=" + password 
+                + ", educationType=" + educationType 
+                + ", educationLevel=" + educationLevel 
+                + ", status=" + status 
+                + ", statusDate=" + statusDate 
+                + ", startDate=" + startDate 
+                + ", vacancyId=" + vacancyId 
+                + ", verificationStatus=" + verificationStatus 
+                + ", verificationDate=" + verificationDate 
+                + ", verificationComment=" + verificationComment 
+                + ", mobileDevice=" + mobileDevice 
+                + ", image=" + image + '}';
     }
     
 }

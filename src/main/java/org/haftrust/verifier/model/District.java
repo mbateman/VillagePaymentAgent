@@ -2,6 +2,7 @@ package org.haftrust.verifier.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,20 +21,23 @@ public class District implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "iddistrict")
-    private int id;
+    private Integer id;
+    
     @Column(name = "title")
     private String title;
+    
     @Column(name = "description")
     private String description;
-    @ManyToOne
+    
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ht_region_idregion")
     private Region region;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -63,7 +67,10 @@ public class District implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "District{" + "id=" + id + ", title=" + title + ", description=" + description + ", region=" + region + '}';
+        return "District { id=" + id 
+                + ", title=" + title 
+                + ", description=" + description 
+                + ", region=" + region + '}';
     }
     
 }

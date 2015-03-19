@@ -4,9 +4,9 @@ import java.sql.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +16,8 @@ import javax.persistence.Table;
 
 import org.haftrust.verifier.model.enums.EmployeeType;
 import org.haftrust.verifier.model.enums.InterviewStatus;
+import org.haftrust.verifier.model.enums.converters.EmployeeTypeConverter;
+import org.haftrust.verifier.model.enums.converters.InterviewStatusConverter;
 
 /**
  *
@@ -28,28 +30,37 @@ public class Interview implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idinterview")
-    private int id;
+    private Integer id;
+    
     @Column(name = "date")
     private Date date;
+    
     @Column(name = "address")
     private String address;
+    
     @Column(name = "status")
+    @Convert(converter = InterviewStatusConverter.class)
     private InterviewStatus status;
+    
     @Column(name = "comment")
     private String comment;
+    
     @Column(name = "employee_type")
+    @Convert(converter = EmployeeTypeConverter.class)
     private EmployeeType employeeType;
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    
+    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "emp_id")
     private Verifier verifier;
+    
     @Column(name = "ht_fom_idfom")
     private Fom fom;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -111,7 +122,14 @@ public class Interview implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Interview{" + "id=" + id + ", date=" + date + ", address=" + address + ", status=" + status + ", comment=" + comment + ", employeeType=" + employeeType + ", verifier=" + verifier + ", fom=" + fom + '}';
+        return "Interview { id=" + id 
+                + ", date=" + date 
+                + ", address=" + address 
+                + ", status=" + status 
+                + ", comment=" + comment 
+                + ", employeeType=" + employeeType 
+                + ", verifier=" + verifier 
+                + ", fom=" + fom + '}';
     }
 
 }

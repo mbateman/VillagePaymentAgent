@@ -19,8 +19,10 @@ public class Country implements java.io.Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idcountry")
     private Integer id;
+
     @Column(name = "title", length = 45)
     private String title;
+
     @Column(name = "description", length = 45)
     private String description;
 
@@ -50,6 +52,8 @@ public class Country implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Country{" + "id=" + id + ", title=" + title + ", description=" + description + '}';
+        return "Country{ id=" + id 
+                + ", title=" + title 
+                + ", description=" + description + '}';
     }
 }

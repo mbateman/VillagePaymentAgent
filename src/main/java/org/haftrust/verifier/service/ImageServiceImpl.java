@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
  *
  * @author Miroslav
  */
-@Service
+@Service("imageService")
 public class ImageServiceImpl implements ImageService {
 
     private final ImageDAO imageDao;

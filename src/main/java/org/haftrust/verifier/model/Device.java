@@ -3,13 +3,13 @@ package org.haftrust.verifier.model;
 import java.sql.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.haftrust.verifier.model.enums.DeviceAllocation;
+import org.haftrust.verifier.model.enums.converters.DeviceAllocationConverter;
 
 /**
  *
@@ -21,24 +21,29 @@ public class Device implements java.io.Serializable {
 
     @Id
     @Column(name = "imei")
-    private long imei;
+    private Long imei;
+    
     @Column(name = "product_number")
     private String productNumber;
+    
     @Column(name = "model_number")
     private String modelNumber;
+    
     @Column(name = "ht_mobile_number")
     private String htMobileNumber;
+    
     @Column(name = "allocation")
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = DeviceAllocationConverter.class)
     private DeviceAllocation allocation;
+    
     @Column(name = "allocation_date")
     private Date allocationDate;
 
-    public long getImei() {
+    public Long getImei() {
         return imei;
     }
 
-    public void setImei(long imei) {
+    public void setImei(Long imei) {
         this.imei = imei;
     }
 
@@ -84,7 +89,12 @@ public class Device implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Device{" + "imei=" + imei + ", productNumber=" + productNumber + ", modelNumber=" + modelNumber + ", htMobileNumber=" + htMobileNumber + ", allocation=" + allocation + ", allocationDate=" + allocationDate + '}';
+        return "Device { imei=" + imei 
+                + ", productNumber=" + productNumber 
+                + ", modelNumber=" + modelNumber 
+                + ", htMobileNumber=" + htMobileNumber 
+                + ", allocation=" + allocation 
+                + ", allocationDate=" + allocationDate + '}';
     }
 
 }

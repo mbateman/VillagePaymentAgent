@@ -4,9 +4,11 @@ import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.List;
 
 import org.haftrust.verifier.config.DbConfig;
 import org.haftrust.verifier.model.Verifier;
+import org.haftrust.verifier.model.enums.EmployeeType;
 import org.haftrust.verifier.model.enums.EmploymentStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,6 +49,15 @@ public class VerifierDaoTest {
         assertEquals("ID of found entity should be same as that saved.", 
                 savedEntity.getId(), foundEntity.getId());
         
+    }
+
+    /** 
+     * Throws exception is query is invalid.
+     * TODO Set up verifiers with addresses, so that we can validate real results. 
+     */
+    @Test
+    public void shouldFindByEmployeeType() {
+        verifierDao.findByEmployeeType(EmployeeType.VERIFIER);
     }
 
 }

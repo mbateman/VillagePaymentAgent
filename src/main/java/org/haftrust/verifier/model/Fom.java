@@ -18,21 +18,25 @@ public class Fom implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idfom")
-    private int id;
+    private Integer id;
+    
     @Column(name = "first_name")
     private String firstName;
+    
     @Column(name = "last_name")
     private String lastName;
+    
     @Column(name = "email")
     private String email;
+    
     @Column(name = "password")
     private String password;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -70,7 +74,11 @@ public class Fom implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Fom{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password + '}';
+        return "Fom { id=" + id 
+                + ", firstName=" + firstName 
+                + ", lastName=" + lastName 
+                + ", email=" + email 
+                + ", password=" + password + '}';
     }
     
 }

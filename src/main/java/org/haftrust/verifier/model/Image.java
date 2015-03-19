@@ -3,16 +3,18 @@ package org.haftrust.verifier.model;
 import java.sql.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.haftrust.verifier.model.enums.EmployeeType;
 import org.haftrust.verifier.model.enums.VerificationStatus;
+import org.haftrust.verifier.model.enums.converters.EmployeeTypeConverter;
+import org.haftrust.verifier.model.enums.converters.VerificationStatusConverter;
 
 /**
  *
@@ -25,25 +27,34 @@ public class Image implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idimage")
-    private int id;
+    private Integer id;
+    
     @Column(name = "date")
     private Date date;
-    @Column(name = "photo")
+    
+    @Column(name = "photo", length = 1048576, columnDefinition = "MEDIUMBLOB")
+    @Lob
     private byte[] photo;
+    
     @Column(name = "verification_status", length = 45)
+    @Convert(converter = VerificationStatusConverter.class)
     private VerificationStatus verificationStatus;
+    
     @Column(name = "verification_date")
     private Date verificationDate;
+    
     @Column(name = "verification_comment", length = 100)
     private String verificationComment;
+    
     @Column(name = "employee_type", length = 25)
+    @Convert(converter = EmployeeTypeConverter.class)
     private EmployeeType employeeType;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -97,6 +108,12 @@ public class Image implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Image{" + "id=" + id + ", date=" + date + ", photo=" + photo + ", verificationStatus=" + verificationStatus + ", verificationDate=" + verificationDate + ", verificationComment=" + verificationComment + ", employeeType=" + employeeType + '}';
+        return "Image { id=" + id 
+                + ", date=" + date 
+                + ", photo=" + photo 
+                + ", verificationStatus=" + verificationStatus 
+                + ", verificationDate=" + verificationDate 
+                + ", verificationComment=" + verificationComment 
+                + ", employeeType=" + employeeType + '}';
     }    
 }

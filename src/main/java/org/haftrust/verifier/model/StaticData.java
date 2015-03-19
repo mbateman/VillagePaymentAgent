@@ -19,10 +19,13 @@ public class StaticData implements java.io.Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idregion")
     private Integer id;
+    
     @Column(name = "type")
     private String type;
+    
     @Column(name = "value")
     private String value;
+    
     @Column(name = "description")
     private String description;
     
@@ -34,11 +37,11 @@ public class StaticData implements java.io.Serializable {
         this.description = description;
     }
     
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -68,9 +71,10 @@ public class StaticData implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "StaticData{" + "id=" + id + ", type=" + type + ", value=" + value + ", description=" + description + '}';
+        return "StaticData { id=" + id 
+                + ", type=" + type 
+                + ", value=" + value 
+                + ", description=" + description + '}';
     }
-
-    
     
 }

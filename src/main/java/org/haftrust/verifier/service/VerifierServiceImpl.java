@@ -50,7 +50,7 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-@Service
+@Service("verifierService")
 public class VerifierServiceImpl implements VerifierService {
 
     private static final Logger LOG = LoggerFactory.getLogger(VerifierServiceImpl.class);
@@ -69,10 +69,6 @@ public class VerifierServiceImpl implements VerifierService {
     private final InterviewDAO interviewDao;
     private final DeviceDAO deviceDao;
 
-    private List<Country> countryList = new ArrayList<Country>();
-    private List<Region> regionList = new ArrayList<Region>();
-    private List<District> districtList = new ArrayList<District>();
-    private List<Fom> fomList = new ArrayList<Fom>();
     private Region verifierRegion = new Region();
     private Country verifierCountry = new Country();
     private District verifierDistrict = new District();
@@ -94,8 +90,6 @@ public class VerifierServiceImpl implements VerifierService {
     private List<Address> registeredVerifierAddressList = new ArrayList<Address>();
 
     private List<Verifier> employedVerifiersList = new ArrayList<Verifier>();
-
-    private List<Device> deviceList = new ArrayList<Device>();
 
     @Autowired
     public VerifierServiceImpl(
@@ -178,6 +172,7 @@ public class VerifierServiceImpl implements VerifierService {
         verifier = verifierDao.save(verifier);
     }
 
+    @Transactional
     public void failVerification(String strVerifierVerificationComment) {
         sdStatus = EmploymentStatus.FAILED;
         //this.verifier.setStatus(this.sdStatus.getValue());
@@ -187,6 +182,7 @@ public class VerifierServiceImpl implements VerifierService {
         saveVerifier();
     }
 
+    @Transactional
     public Fom setVerifyVerifierDetils(String strVerifierVerificationStatus,
                                        String strVerifierVerificationComment,
                                        String strAddressVerificationStatus,
@@ -277,8 +273,7 @@ public class VerifierServiceImpl implements VerifierService {
     }
 
     public List<Fom> getFoms() {
-        fomList = fomDao.findAll();
-        return fomList;
+        return fomDao.findAll();
     }
 
     public List<Verifier> getEmployedVerifiersWithoutDevice() {
@@ -320,6 +315,7 @@ public class VerifierServiceImpl implements VerifierService {
         return verifiers;
     }
 
+    @Transactional
     public Verifier logInVerifier(String email, String password) {
         verifierCountry = new Country();
         verifierRegion = new Region();
@@ -340,6 +336,7 @@ public class VerifierServiceImpl implements VerifierService {
         
         verifier = verifierList.get(0);
         sdVerifierType = EmployeeType.VERIFIER;
+        sdStatus = verifier.getStatus();
 
         LOG.debug("------------- LogInVerifier in verifierService verifier id: {}", verifier.getId());
 
@@ -394,7 +391,10 @@ public class VerifierServiceImpl implements VerifierService {
         return verifier;
     }
 
+    @Transactional
     public int preRegisterVerifier(String email, String password) {
+        LOG.info("Pre-registering new verifier with email: " + email);
+        
         Verifier ver = new Verifier();
 
         ver.setEmail(email);
@@ -405,14 +405,19 @@ public class VerifierServiceImpl implements VerifierService {
         Date today = cal.getTime();
         SimpleDateFormat dateFmt = new SimpleDateFormat("yyyy-MM-dd");
         java.sql.Date sqlDate = java.sql.Date.valueOf(dateFmt.format(today));
-        LOG.debug("------------------------sql date = {}", sqlDate);
 
         ver.setStatusDate(sqlDate);
 
-        ver = verifierDao.saveAndFlush(verifier);
+        ver = verifierDao.saveAndFlush(ver);
+        
+        this.verifier = ver;
+        
+        LOG.debug("Created pre-registered verifier: " + this.verifier);
+        
         return ver.getId();
     }
 
+    @Transactional
     public void save(int page) {
 
         // save verifier personal, address and image details
@@ -485,17 +490,21 @@ public class VerifierServiceImpl implements VerifierService {
             saveReference2();
         }
     }
-
+    
+    @Transactional
     public void saveImage() {
         LOG.debug("------------------------save image = {}", image);
 
         image.setVerificationDate(todaysDate());
         image.setEmployeeType(EmployeeType.VERIFIER);
+        
+        LOG.debug("Image size is: " + image.getPhoto().length);
 
         //this.image.setId(1);
         image = imageDao.saveAndFlush(image);
     }
 
+    @Transactional
     public void saveVerifier() {
         verifier.setStatus(sdStatus);
         verifier.setStatusDate(todaysDate());
@@ -506,58 +515,73 @@ public class VerifierServiceImpl implements VerifierService {
         verifier = verifierDao.saveAndFlush(verifier);
     }
 
+    @Transactional
     public void saveAddress() {
         address.setVerificationDate(todaysDate());
         address.setEmployeeType(sdVerifierType);
-        address.setVerifier(verifier);
+        address.setVerifier(verifierDao.findOne(verifier.getId()));
+        address.setCountry(countryDao.findOne(verifierCountry.getId()));
+        address.setDistrict(districtDao.findOne(verifierDistrict.getId()));
+        address.setRegion(regionDao.findOne(verifierRegion.getId()));
 
-        LOG.debug("----------- save address, address country id: {}", address.getCountry().getId());
+        LOG.debug("Saving address: " + address);
         address = addressDao.saveAndFlush(address);
     }
 
+    @Transactional
     public void saveIdentityDocument() {
         identityDocument.setVerificationDate(todaysDate());
         identityDocument.setEmployeeType(sdVerifierType);
-        identityDocument.setVerifier(verifier);
+        identityDocument.setVerifier(verifierDao.findOne(verifier.getId()));
 
+        LOG.debug("Saving identity document: " + identityDocument);
         identityDocument = identityDocumentDao.saveAndFlush(identityDocument);
     }
 
+    @Transactional
     public void saveInterview() {
         sdInterviewStatus = InterviewStatus.AWAITING;
         sdVerifierType = EmployeeType.VERIFIER;
         interview.setFom(fom);
-        interview.setVerifier(verifier);
+        interview.setVerifier(verifierDao.findOne(verifier.getId()));
         interview.setStatus(sdInterviewStatus);
         interview.setEmployeeType(sdVerifierType);
 
+        LOG.debug("Saving interview: " + interview);
         interview = interviewDao.saveAndFlush(interview);
     }
-
+    
+    @Transactional
     public void saveBank() {
         bank.setVerificationDate(todaysDate());
         bank.setEmployeeType(sdVerifierType);
-        bank.setVerifier(verifier);
+        bank.setVerifier(verifierDao.findOne(verifier.getId()));
 
+        LOG.debug("Saving bank: " + bank);
         bank = bankDao.saveAndFlush(bank);
     }
 
+    @Transactional
     public void saveReference1() {
         reference1.setVerificationDate(todaysDate());
         reference1.setEmployeeType(sdVerifierType);
-        reference1.setVerifier(verifier);
+        reference1.setVerifier(verifierDao.findOne(verifier.getId()));
 
+        LOG.debug("Saving reference 1: " + reference1);
         reference1 = referenceDao.saveAndFlush(reference1);
     }
 
+    @Transactional
     public void saveReference2() {
         reference2.setVerificationDate(todaysDate());
         reference2.setEmployeeType(sdVerifierType);
-        reference2.setVerifier(verifier);
+        reference2.setVerifier(verifierDao.findOne(verifier.getId()));
 
+        LOG.debug("Saving reference 2: " + reference2);
         reference2 = referenceDao.saveAndFlush(reference2);
     }
 
+    @Transactional
     public Interview verifyVerifier() {
         saveImage();
         saveVerifier();
@@ -571,6 +595,7 @@ public class VerifierServiceImpl implements VerifierService {
         return interview;
     }
 
+    @Transactional
     public void saveVerifyVerifier() {
         saveImage();
         saveVerifier();
@@ -581,6 +606,7 @@ public class VerifierServiceImpl implements VerifierService {
         saveReference2();
     }
 
+    @Transactional
     public Verifier registerVerifier() {
         image.setVerificationStatus(VerificationStatus.AWAITING);
         saveImage();
@@ -603,6 +629,7 @@ public class VerifierServiceImpl implements VerifierService {
         return verifier;
     }
 
+    @Transactional
     public void setVerifierDetails(String strFirstName,
                                    String strMiddleName,
                                    String strLastName,
@@ -750,44 +777,22 @@ public class VerifierServiceImpl implements VerifierService {
     }
 
     public Device setVerifierDevice(long imei) {
-        for (Device aDeviceList : deviceList) {
-            if (imei == aDeviceList.getImei()) {
-                verifierDevice = aDeviceList;
-            }
-        }
-
+        verifierDevice = deviceDao.findByImei(imei); 
         return verifierDevice;
     }
 
-    public Country setVerifierCountry(int id) {
-        for (Country aCountryList : countryList) {
-            if (id == aCountryList.getId()) {
-                verifierCountry = aCountryList;
-            }
-        }
-
+    public Country setVerifierCountry(int countryId) {
+        verifierCountry = countryDao.findOne(countryId);
         return verifierCountry;
     }
 
-    public Region setVerifierRegion(int idRegion) {
-        LOG.debug("---------------- verifier region id: {}", idRegion);
-        for (Region aRegionList : regionList) {
-            if (idRegion == aRegionList.getId()) {
-                verifierRegion = aRegionList;
-            }
-        }
-
+    public Region setVerifierRegion(int regionId) {
+        verifierRegion = regionDao.findOne(regionId);
         return verifierRegion;
     }
 
-    public District setVerifierDistrict(int idDistrict) {
-        LOG.debug("---------------- verifier district id: {}", idDistrict);
-        for (District aDistrictList : districtList) {
-            if (idDistrict == aDistrictList.getId()) {
-                verifierDistrict = aDistrictList;
-            }
-        }
-
+    public District setVerifierDistrict(int districtId) {
+        verifierDistrict = districtDao.findOne(districtId);
         return verifierDistrict;
     }
 
