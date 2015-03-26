@@ -4,16 +4,11 @@
  */
 package org.haftrust.verifier.view;
 
+import org.haftrust.verifier.model.*;
+
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import org.haftrust.verifier.model.Address;
-import org.haftrust.verifier.model.Country;
-import org.haftrust.verifier.model.Fom;
-import org.haftrust.verifier.model.Image;
-import org.haftrust.verifier.model.Interview;
-import org.haftrust.verifier.model.Region;
-import org.haftrust.verifier.model.Verifier;
 
 /**
  *
@@ -21,6 +16,8 @@ import org.haftrust.verifier.model.Verifier;
  */
 public class VerifyVerifierBean {
 
+
+    private int page;
     private String target;
 
     private int idCountry;
@@ -110,6 +107,14 @@ public class VerifyVerifierBean {
     private String identityDocumentExpiryDate;
     private String identityDocumentVerificationStatus;
     private String identityDocumentVerificationComment;
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
 
     public Image getImage() {
         return image;

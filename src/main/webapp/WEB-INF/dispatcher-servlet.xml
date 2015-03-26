@@ -8,9 +8,9 @@
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!-- Enable Autowire, Component, etc -->
-    <context:component-scan base-package="org.haftrust.verifier" />
+    <context:component-scan base-package="org.haftrust.verifier"/>
     <!-- Enable Controller, RequestMapping -->
-    <mvc:annotation-driven />
+    <mvc:annotation-driven/>
 
     <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
 
@@ -30,47 +30,20 @@
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           p:prefix="/WEB-INF/jsp/"
-          p:suffix=".jsp" />
+          p:suffix=".jsp"/>
 
-<bean class="org.haftrust.verifier.validator.PreRegisterVerifierValidator" >
-    <property name="verifierService" ref="verifierService"/>
-</bean>
-
-  <bean name="verifyVerifierController" class="org.haftrust.verifier.controller.VerifyVerifierController">
-    <property name="pages">
-        <list>
-            <value>selectVerifyCountry</value>
-            <value>searchVerifier</value>
-            <value>selectVerifier</value>
-            <value>viewVerifier</value>
-            <value>cancelVerification</value>
-            <value>deleteVerification</value>
-        </list>
-    </property>
-    <property name="pageAttribute" value="page"/>
-    <property name="commandName" value="vvBean"/>
-    <property name="commandClass" value="org.haftrust.verifier.view.VerifyVerifierBean"/>
-     <property name="verifierService" ref="verifierService"/>
-    <property name="successView" value="verificationConfirmation"/>
-    <property name="cancelView" value="cancelVerificationConfirmation"/>
-    <property name="saveView" value="saveVerificationConfirmation"/>
-    <property name="deleteView" value="deleteVerificationConfirmation"/>
-    <property name="validators">
-        <list>
-            <ref local="verifyVerifierValidator"/>
-        </list>
-     </property>
-  </bean>
-
-  <bean id="logInValidator" class="org.haftrust.verifier.validator.LogInValidator">
-      <property name="verifierService" ref="verifierService"/>
-  </bean>
-  <bean id="selectCountryValidator" class="org.haftrust.verifier.validator.SelectCountryValidator"/>
-  <bean id="verifierValidator" class="org.haftrust.verifier.validator.VerifierValidator"/>
-  <bean id="bankValidator" class="org.haftrust.verifier.validator.BankValidator"/>
-  <bean id="reference1Validator" class="org.haftrust.verifier.validator.Reference1Validator"/>
-  <bean id="reference2Validator" class="org.haftrust.verifier.validator.Reference2Validator"/>
-  <bean id="identityDocumentValidator" class="org.haftrust.verifier.validator.IdentityDocumentValidator"/>
-  <bean id="verifyVerifierValidator" class="org.haftrust.verifier.validator.VerifyVerifierValidator"/>
+    <bean class="org.haftrust.verifier.validator.PreRegisterVerifierValidator">
+        <property name="verifierService" ref="verifierService"/>
+    </bean>
+    <bean id="logInValidator" class="org.haftrust.verifier.validator.LogInValidator">
+        <property name="verifierService" ref="verifierService"/>
+    </bean>
+    <bean id="selectCountryValidator" class="org.haftrust.verifier.validator.SelectCountryValidator"/>
+    <bean id="verifierValidator" class="org.haftrust.verifier.validator.VerifierValidator"/>
+    <bean id="bankValidator" class="org.haftrust.verifier.validator.BankValidator"/>
+    <bean id="reference1Validator" class="org.haftrust.verifier.validator.Reference1Validator"/>
+    <bean id="reference2Validator" class="org.haftrust.verifier.validator.Reference2Validator"/>
+    <bean id="identityDocumentValidator" class="org.haftrust.verifier.validator.IdentityDocumentValidator"/>
+    <bean id="verifyVerifierValidator" class="org.haftrust.verifier.validator.VerifyVerifierValidator"/>
 
 </beans>
