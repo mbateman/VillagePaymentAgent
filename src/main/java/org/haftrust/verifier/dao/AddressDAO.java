@@ -1,24 +1,22 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.haftrust.verifier.dao;
 
 import java.util.List;
+
 import org.haftrust.verifier.model.Address;
-import org.haftrust.verifier.model.Country;
 import org.haftrust.verifier.model.Region;
 import org.haftrust.verifier.model.Verifier;
+import org.haftrust.verifier.model.enums.EmployeeType;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
- * @author Miroslav
  */
-public interface AddressDAO {
+public interface AddressDAO extends JpaRepository<Address, Integer> {
 
-    public Address getAddress(Verifier ver, String employeeType);
+    Address findByVerifier(Verifier verifier);
 
-    public Address saveAddress(Address address);
+    List<Address> findByRegion(Region region);
+    
+    List<Address> findByRegionAndEmployeeType(Region region, EmployeeType employeeType);
 
-    public List<Address> getAddressByCountryAndRegion(Country country, Region region, String employeeType);
 }

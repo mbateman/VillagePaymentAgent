@@ -1,24 +1,23 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.haftrust.verifier.dao;
 
 import java.util.List;
-import org.haftrust.verifier.model.Address;
+
 import org.haftrust.verifier.model.Verifier;
+import org.haftrust.verifier.model.enums.EmployeeType;
+import org.haftrust.verifier.model.enums.EmploymentStatus;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-/**
- *
- * @author Miroslav
- */
-public interface VerifierDAO {
+public interface VerifierDAO extends JpaRepository<Verifier, Integer> {
 
-    public Verifier setVerifier(Verifier verifier);
+    List<Verifier> findByEmail(String email);
+    
+    List<Verifier> findByEmailAndStatus(String email, EmploymentStatus employmentStatus);
+    
+    List<Verifier> findByEmailAndPasswordAndStatus(String email, String password, EmploymentStatus employmentStatus);
 
-    public List<Verifier> getPreRegisteredVerifierByEmailAndPassword(String email, String password, String status);
+    @Query("select v from Verifier v where v.address.employeeType = :employeeType")
+    List<Verifier> findByEmployeeType(@Param("employeeType") EmployeeType employeeType);
 
-    public List<Verifier> getVerifierbyAddress(Address address, String status);
-
-    public boolean getVerifierByEmail(String email);
 }

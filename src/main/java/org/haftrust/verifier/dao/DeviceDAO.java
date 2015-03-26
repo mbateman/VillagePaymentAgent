@@ -1,19 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.haftrust.verifier.dao;
 
 import java.util.List;
+
 import org.haftrust.verifier.model.Device;
+import org.haftrust.verifier.model.enums.DeviceAllocation;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
- * @author Miroslav
  */
-public interface DeviceDAO {
+public interface DeviceDAO extends JpaRepository<Device, Integer> {
 
-    public List<Device> getDevicesByAllocation(String allocation);
+    Device findByImei(Long imei);
+    
+    List<Device> findByAllocation(DeviceAllocation allocation);
 
-    public void saveDevice(Device device);
 }

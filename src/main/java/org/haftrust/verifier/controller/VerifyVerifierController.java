@@ -99,10 +99,9 @@ public class VerifyVerifierController {
         vvBean.setEmail(verifier.getEmail());
         LOG.debug("--------------------verify verifier controller post process page verifier email: {}", vvBean.getEmail());
         vvBean.setTelephoneNumber(verifier.getTelephoneNumber());
-        vvBean.setEducationType(verifier.getEducationType().toUpperCase());
-        vvBean.setEducationLevel(verifier.getEducationLevel().toUpperCase());
-        vvBean.setVerifierVerificationStatus(verifier.getVerificationStatus());
-        vvBean.setVerifierVerificationComment(verifier.getVerificationComment());
+        vvBean.setEducationType(verifier.getEducationType() == null ? null : verifier.getEducationType().value.toUpperCase());
+        vvBean.setEducationLevel(verifier.getEducationLevel() == null ? null : verifier.getEducationLevel().value.toUpperCase());
+        vvBean.setVerifierVerificationStatus(verifier.getVerificationStatus() == null ? null : verifier.getVerificationStatus().value);        vvBean.setVerifierVerificationComment(verifier.getVerificationComment());
         vvBean.setIdVerifier(verifier.getId());
 
         Address address = new Address();
@@ -120,7 +119,7 @@ public class VerifyVerifierController {
         vvBean.setDistrict(district.getDescription());
         vvBean.setAddressRegion(this.verifierService.getVerifierRegion().getDescription());
         vvBean.setAddressCountry(this.verifierService.getVerifierCountry().getDescription());
-        vvBean.setAddressVerificationStatus(address.getVerificationStatus());
+        vvBean.setAddressVerificationStatus(verifier.getVerificationStatus() == null ? null : address.getVerificationStatus().value);
         vvBean.setAddressVerificationComment(address.getVerificationComment());
 
         Image image = new Image();
@@ -130,7 +129,7 @@ public class VerifyVerifierController {
         vvBean.setFile(image.getPhoto());
         vvBean.setImage(image);
 
-        vvBean.setFileVerificationStatus(image.getVerificationStatus());
+        vvBean.setAddressVerificationStatus(verifier.getVerificationStatus() == null ? null : address.getVerificationStatus().value);
         vvBean.setFileVerificationComment(image.getVerificationComment());
 
         Bank bank = new Bank();
@@ -142,7 +141,7 @@ public class VerifyVerifierController {
         vvBean.setBankAddress(bank.getAddress());
         vvBean.setBankSortCode(bank.getSortcode());
         vvBean.setBankIban(bank.getIban());
-        vvBean.setBankVerificationStatus(bank.getVerificationStatus());
+        vvBean.setBankVerificationStatus(bank.getVerificationStatus() == null ? null : bank.getVerificationStatus().value);
         vvBean.setBankVerificationComment(bank.getVerificationComment());
 
         Reference reference1 = new Reference();
@@ -154,7 +153,7 @@ public class VerifyVerifierController {
         vvBean.setReference1ContactNumber(reference1.getContactNumber());
         vvBean.setReference1Email(reference1.getEmail());
         vvBean.setReference1Address(reference1.getAddress());
-        vvBean.setReference1VerificationStatus(reference1.getVerificationStatus());
+        vvBean.setReference1VerificationStatus(reference1.getVerificationStatus() == null ? null : reference1.getVerificationStatus().value);
         vvBean.setReference1VerificationComment(reference1.getVerificationComment());
 
         Reference reference2 = new Reference();
@@ -166,12 +165,12 @@ public class VerifyVerifierController {
         vvBean.setReference2ContactNumber(reference2.getContactNumber());
         vvBean.setReference2Email(reference2.getEmail());
         vvBean.setReference2Address(reference2.getAddress());
-        vvBean.setReference2VerificationStatus(reference2.getVerificationStatus());
+        vvBean.setReference2VerificationStatus(reference2.getVerificationStatus() == null ? null : reference2.getVerificationStatus().value);
         vvBean.setReference2VerificationComment(reference2.getVerificationComment());
 
         IdentityDocument id = new IdentityDocument();
         id = this.verifierService.getIdentityDocument();
-        vvBean.setIdentityDocumentType(id.getType().toUpperCase());
+        vvBean.setIdentityDocumentType(id.getType() == null ? null : id.getType().value.toUpperCase());
         vvBean.setIdentityDocumentNumber(id.getNumber());
         if (id.getIssueDate() != null) {
             String date;
@@ -202,7 +201,7 @@ public class VerifyVerifierController {
             vvBean.setIdentityDocumentExpiryDate(date);
         }
 
-        vvBean.setIdentityDocumentVerificationStatus(id.getVerificationStatus());
+        vvBean.setIdentityDocumentVerificationStatus(id.getVerificationStatus() == null ? null : id.getVerificationStatus().value);
         vvBean.setIdentityDocumentVerificationComment(id.getVerificationComment());
 
         List<Fom> fom = new ArrayList<Fom>();
