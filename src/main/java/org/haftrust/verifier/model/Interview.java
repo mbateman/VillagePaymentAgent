@@ -1,23 +1,12 @@
 package org.haftrust.verifier.model;
 
-import java.sql.Date;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.haftrust.verifier.model.enums.EmployeeType;
 import org.haftrust.verifier.model.enums.InterviewStatus;
 import org.haftrust.verifier.model.enums.converters.EmployeeTypeConverter;
 import org.haftrust.verifier.model.enums.converters.InterviewStatusConverter;
+
+import javax.persistence.*;
+import java.sql.Date;
 
 /**
  *
@@ -53,7 +42,7 @@ public class Interview implements java.io.Serializable {
     @JoinColumn(name = "emp_id")
     private Verifier verifier;
     
-    @Column(name = "ht_fom_idfom")
+    @Column(name = "ht_fom_idfom", length = 510)
     private Fom fom;
 
     public Integer getId() {

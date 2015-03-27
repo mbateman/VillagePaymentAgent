@@ -1,24 +1,12 @@
 package org.haftrust.verifier.model;
 
-import java.sql.Date;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
 import org.haftrust.verifier.model.enums.EmployeeType;
 import org.haftrust.verifier.model.enums.VerificationStatus;
 import org.haftrust.verifier.model.enums.converters.EmployeeTypeConverter;
 import org.haftrust.verifier.model.enums.converters.VerificationStatusConverter;
+
+import javax.persistence.*;
+import java.sql.Date;
 
 /**
  *
@@ -50,7 +38,7 @@ public class Address implements java.io.Serializable {
     
     @Column(name = "verification_status")
     @Convert(converter = VerificationStatusConverter.class)
-    private VerificationStatus verificationStatus;
+    private VerificationStatus verificationStatus = VerificationStatus.UNVERIFIED;
     
     @Column(name = "verification_date")
     private Date verificationDate;

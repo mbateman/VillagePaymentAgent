@@ -137,6 +137,7 @@
                    <tr>
                        <td>Verification Status :</td>
                        <td><form:select path="addressVerificationStatus">
+                            <form:option value="Nothing selected" />
                             <form:options items="${verificationStatusList}" itemValue="value" itemLabel="description" />
                         </form:select></td>
                        <td><form:errors path="addressVerificationStatus" cssClass="error"/></td>
